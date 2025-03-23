@@ -1,8 +1,6 @@
-# COBOL ou quoient ?????
+# COBOL Cheat Sheet
 
-## Petite cheat sheet là :)
-
-### Définition d'un fichier en entrée, sortie ou entrée-sortie
+## Définition d'un fichier en entrée, sortie ou entrée-sortie
 
 ```cobol
 * dans la INPUT-OUTPUT SECTION
@@ -18,7 +16,7 @@
     77 {{nom interne préfixé par WS-FS-}} PIC XX.
 ```
 
-### Définition des variables
+## Définition des variables
 
 ```cobol
 * dans la WORKING-STORAGE SECTION
@@ -33,7 +31,7 @@
         05 FILLER PIC X(20) VALUE ALL '*'.
 ```
 
-### Définition et appel d'un paragraphe
+## Définition et appel d'un paragraphe
 
 ```cobol
 * Dans la PROCEDURE DIVISION
@@ -50,7 +48,7 @@ NNNN-PARAGRAPHE-2-FIN.
     EXIT.
 ```
 
-### Top 3 des différents types de PERFORM
+## Top 3 des différents types de PERFORM
 
 ```cobol
 * perform simple
@@ -71,7 +69,7 @@ NNNN-PARAGRAPHE-2-FIN.
     UNTIL   {{condition qui arrête la boucle quand elle est vraie impliquant VARIABLE}}.
 ```
 
-### Instructions conditionnelles
+## Instructions conditionnelles
 
 ```cobol
 * if (alternative incomplète)
@@ -111,7 +109,7 @@ NNNN-PARAGRAPHE-2-FIN.
     END-EVALUATE.
 ```
 
-#### Opérateurs logiques
+### Opérateurs logiques
 
 | comparaison | opérateur |
 |---|---|
@@ -128,9 +126,9 @@ Il est possible d'utiliser des parenthèses pour créer des tests plus complèxe
 
 `NOT (A = B AND C < D OR E >= F)` $$\Leftrightarrow$$ `A NOT = B OR C >= D AND E < F` ou `A NOT = B OR C NOT < D AND E NOT >= F`
 
-### Manipulation des fichiers (paragraphes 6000)
+## Manipulation des fichiers (paragraphes 6000)
 
-#### Fichiers séquentiels
+### Fichiers séquentiels
 
 ```cobol
 * ouvrir un fichier
@@ -194,7 +192,7 @@ Il est possible d'utiliser des parenthèses pour créer des tests plus complèxe
     EXIT.
 ```
 
-### Opérations, transferts et calculs (paragraphes 7000)
+## Opérations, transferts et calculs (paragraphes 7000)
 
 ```cobol
 * additionner
@@ -261,18 +259,18 @@ COMPUTE devient plus intéressant à utiliser que les opérations classiques qua
 | / | Division exacte (fraction) |
 | ** | Puissance (2 ** 3 = 8) |
 
-### Affichages (paragraphes 8000)
+## Affichages (paragraphes 8000)
 
 ```cobol
 * Afficher dans la SYSOUT
     DISPLAY {{valeurs, chaines de caractères ou variables séparées par les espaces}}.
 ```
 
-### Appels de sous-programmes (paragraphes 9000)
+## Appels de sous-programmes (paragraphes 9000)
 
 n/c
 
-### Erreurs programme (paragraphe 9999-ERREUR-PROGRAMME)
+## Erreurs programme (paragraphe 9999-ERREUR-PROGRAMME)
 
 À priori celui-là est fourni à chaque fois mais je le met là quand même on sait jamais 😶
 
