@@ -30,6 +30,21 @@
         05 FILLER PIC X(20) VALUE 'VALEUR FIXE        '.
         05 FILLER PIC X(20) VALUE ALL '*'.
 ```
+### Fonctionnement des pictures de variables d'édition
+
+| PIC | Valeur | PIC (ED) | Résultats modifiés |
+|---|---|---|---|
+| `9(6)` | `123456` | `$ZZZ.ZZZ.99` | `$123.456,00` |
+| `9(4)V99` | `0012,34` | `$Z.ZZZ.99` | `$ 12,34` |
+| `9(5)V99` | `00001,23` | `$**.***.99` | `$*****1,23` |
+| `S9(6)` | `-012345` | `+Z(6)` | `- 12345` |
+| `S9(6)` | `+123456` | `-Z(6)` | `123456` |
+| `S9(4)V99` | `+1234,56` | `+Z(4)V99` | `+1234.56` |
+| `S999` | `-123` | `ZZZ-` | `123-` |
+| `9(6)` | `123456` | `99BBBB9999` | `12 3456` |
+| `S99` | `-05` | `$ZZ,99DB` | `$5,00DB` |
+| `999` | `123` | `999000` | `123000` |
+| `S99V99` | `+12,34` | `$ZZ.99CR` | `$12.34CR` |
 
 ## Définition et appel d'un paragraphe
 
@@ -125,6 +140,65 @@ NNNN-PARAGRAPHE-2-FIN.
 Il est possible d'utiliser des parenthèses pour créer des tests plus complèxes. Notamment, `NOT (condition)`, permet d'inverser toute une condition. Par exemple :
 
 `NOT (A = B AND C < D OR E >= F)` $$\Leftrightarrow$$ `A NOT = B OR C >= D AND E < F` ou `A NOT = B OR C NOT < D AND E NOT >= F`
+
+## La date 
+
+**Date (US) YYYYMMDD**
+
+```cobol
+    01 WS-DATE.
+        05 WS-ANNEE PIC 9999.
+        05 WS-MOIS  PIC 99.
+        05 WS-JOUR  PIC 99.
+
+    ACCEPT WS-DATE FROM DATE YYYYMMDD.
+```
+
+**Date quantième YYYYDDD**
+
+```cobol
+    01 WS-DATE.
+        05 WS-ANNEE PIC 9999.
+        05 WS-JOUR  PIC 999.
+
+    ACCEPT WS-DATE FROM DAY YYYYDDD.
+```
+
+**Heure HHMMSSCC**
+
+```cobol
+    01 WS-TEMPS.
+        05 WS-HEURE    PIC 99.
+        05 WS-MINUTE   PIC 99.
+        05 WS-SECONDE  PIC 99.
+        05 WS-CENTIEME PIC 99.
+
+    ACCEPT WS-TEMPS FROM TIME.
+```
+
+**Exemples avec valeurs (le samedi 1er février 2003 à 4h 5min 6.07s (32ème jour de l'année)**
+
+```cobol
+01 WS-YYYYMMDD PIC X(8).
+01 WS-YYMMDD PIC X(6).
+01 WS-HHMMSS PIC X(6).
+01 WS-HHMMSSCC PIC X(8).
+01 WS-JOUR-SEMAINE PIC 9.
+01 WS-ANNEE-JOUR PIC 9(5).
+
+ACCEPT WS-YYYYMMDD FROM DATE YYYYMMDD.
+*    → 20030201
+ACCEPT WS-YYMMDD FROM DATE.
+*    → 030201
+ACCEPT WS-HHMMSS FROM TIME.
+*    → 040506
+ACCEPT WS-HHMMSSCC FROM TIME.
+*    → 04050607
+ACCEPT WS-JOUR-SEMAINE FROM DAY-OF-WEEK.
+*    → 6
+ACCEPT WS-ANNEE-JOUR FROM DAY
+*    → 03032
+```
 
 ## Manipulation des fichiers (paragraphes 6000)
 
@@ -259,11 +333,16 @@ COMPUTE devient plus intéressant à utiliser que les opérations classiques qua
 | / | Division exacte (fraction) |
 | ** | Puissance (2 ** 3 = 8) |
 
-## Affichages (paragraphes 8000)
+## Editions (paragraphes 8000)
 
 ```cobol
 * Afficher dans la SYSOUT
     DISPLAY {{valeurs, chaines de caractères ou variables séparées par les espaces}}.
+
+* Edition en vue d'écrire dans un fichier
+    MOVE {{variable d`edition}} TO {{Buffer de fichier défini dans la WSS (WS-BUFFER-)}}.
+    PERFORM 6NNN-ECRIRE-FICHIER-DEB
+    THRU    6NNN-ECRIRE-FICHIER-FIN.
 ```
 
 ## Appels de sous-programmes (paragraphes 9000)
